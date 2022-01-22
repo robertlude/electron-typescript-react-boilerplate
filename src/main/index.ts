@@ -5,6 +5,10 @@ import {
   BrowserWindow,
 } from 'electron'
 
+/// Internal Dependencies
+
+import store from '@/store'
+
 /// Module
 
 const createWindow = () => {

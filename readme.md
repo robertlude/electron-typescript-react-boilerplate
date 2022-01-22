@@ -22,6 +22,9 @@ This repository includes the following minimally configured packages:
     * `@types/react-dom`
     * `react`
     * `react-dom`
+  * Redux
+    * `@reduxjs/toolkit`
+    * `react-redux`
 
 ## Usage
 
@@ -67,6 +70,28 @@ Now you're ready to start developing your application!
 
 ## Project Structure
 
-Main thread code goes in `/src/main`. Renderer code goes in `/src/renderer`.
+| Directory       | Purpose                                   |
+| --------------- | ----------------------------------------- |
+| `/src/main`     | Main thread code                          |
+| `/src/renderer` | Renderer thread code                      |
+| `/src/store`    | Redux store code (actions, reducers, etc) |
 
 Built code resides in corresponding directories in `/dist`.
+
+### Import Aliases
+
+The following import aliases are defined for convenience:
+
+| Alias | Path            |
+| ----- | --------------- |
+| `@`   | `/src`          |
+| `@m`  | `/src/main`     |
+| `@r`  | `/src/renderer` |
+| `@s`  | `/src/store`    |
+
+If you would like to add to or customize these import paths, make sure to update
+both `webpack.config.js` and `tsconfig.json`. However, don't delete the existing
+ones as this repo's base code may break. If you want to fix the imports yourself
+after that, go right ahead! It isn't complicated. This boilerplate aims to be a
+prescriptionless as possible, while being as ready to go out of the box as
+possible. Do whatever you want!

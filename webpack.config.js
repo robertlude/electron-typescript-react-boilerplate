@@ -42,6 +42,12 @@ const common = {
     ],
   },
   resolve: {
+    alias: {
+      '@':  path.resolve(__dirname, 'src'            ),
+      '@m': path.resolve(__dirname, 'src', 'main'    ),
+      '@r': path.resolve(__dirname, 'src', 'renderer'),
+      '@s': path.resolve(__dirname, 'src', 'store'   ),
+    },
     extensions: [
       ...babelExtensions,
       ...typescriptExtensions,

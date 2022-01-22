@@ -2,12 +2,19 @@
   "compilerOptions": {
     "allowJs":                      true,
     "allowSyntheticDefaultImports": true,
+    "baseUrl":                      ".",
     "jsx":                          "react",
     "module":                       "es6",
     "moduleResolution":             "node",
     "noImplicitAny":                true,
     "outDir":                       "./dist/",
     "sourceMap":                    true,
-    "target":                       "es5"
+    "target":                       "es5",
+    "paths": {
+      "@/*":  ["src/*"         ],
+      "@m/*": ["src/main/*"    ],
+      "@r/*": ["src/renderer/*"],
+      "@s/*": ["src/store/*"   ]
+    }
   }
 }
