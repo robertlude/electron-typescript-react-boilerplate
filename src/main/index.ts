@@ -7,8 +7,6 @@ import {
 
 /// Module
 
-console.log('hello main')
-
 const createWindow = () => {
   const win: BrowserWindow = new BrowserWindow({
     width:  800,

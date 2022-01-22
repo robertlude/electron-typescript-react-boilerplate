@@ -1,0 +1,164 @@
+#!/usr/bin/env node
+
+/**********
+  Performs some basic tasks to get this boilerplate ready to use right away:
+    * Removes git configuration
+    * Renames the project throughout various files
+    * Reconfigures the package
+    * Installs dependencies
+    * Creates a `readme.md` file
+    * Initializes Git on branch `main`
+    * Removes this script
+
+  Usage:
+    ./init
+**********/
+
+/// Node Standard Dependencies
+
+const child_process = require('child_process')
+    , fs            = require('fs')
+    , path          = require('path')
+
+const readline = require('readline')
+                   .promises
+                   .createInterface({
+                     input:  process.stdin,
+                     output: process.stdout,
+                   })
+
+/// Module
+
+// Helpers
+
+const getInput = async (label, defaultValue) => {
+  if (defaultValue) {
+    const input = await readline.question(`${label} (${defaultValue}): `)
+
+    const trimmedInput = input.trim()
+
+    return trimmedInput ? trimmedInput : defaultValue
+  }
+
+  const input = await readline.question(`${label}: `)
+
+  return input.trim()
+}
+
+const readPackage = () => {
+  const contents = fs.readFileSync('package.json', {encoding: 'utf-8'})
+
+  return JSON.parse(contents)
+}
+
+const replaceInAllFiles = (find, replace) => {
+  shellCommand(`ag -l "${find}" | xargs sed -i '' -e "s/${find}/${replace}/g"`)
+}
+
+const shellCommand = command => {
+  return child_process.execSync(
+                         command,
+                         { encoding: 'utf-8', },
+                       )
+}
+
+const writePackage = package => {
+  const contents = JSON.stringify(package, undefined, 2)
+
+  fs.writeFileSync('package.json', contents)
+}
+
+// Steps
+
+const finish = () => {
+  console.log('Complete!')
+
+  process.exit()
+}
+
+const initializeGit = () => {
+  console.log('Initializing Git...')
+
+  shellCommand(`git init`)
+  shellCommand(`git checkout -B main`)
+  shellCommand(`git add . && git commit -m 'initial commit'`)
+}
+
+const initializeReadme = humanReadableName => {
+  console.log('Initializing readme...')
+
+  const package = readPackage()
+
+  const contents = `# ${humanReadableName}\n\n${package.description}`
+
+  fs.writeFileSync('readme.md', contents)
+}
+
+const installDependencies = () => {
+  console.log('Installing dependencies...')
+
+  shellCommand(`npm install`)
+}
+
+const reconfigurePackage = async () => {
+  console.log('Reconfiguring package...')
+
+  const package = readPackage()
+
+  package.version     = await getInput('  Version',     '0.1.0'     )
+  package.description = await getInput('  Description'              )
+  package.author      = await getInput('  Author'                   )
+  package.license     = await getInput('  License',     'UNLICENSED')
+
+  writePackage(package)
+}
+
+const removeGit = () => {
+  console.log('Removing Git...')
+
+  shellCommand(`rm -rf .git`)
+}
+
+const removeInit = () => {
+  console.log('Removing init...')
+
+  shellCommand(`rm init`)
+}
+
+const renameProject = async () => {
+  console.log('Renaming project...')
+
+  const defaultProjectName = path.basename(process.cwd())
+
+      , projectName = await getInput('  Package name', defaultProjectName)
+
+      , defaultHumanReadableName = projectName
+                                     .split('-')
+                                     .map(word => word.slice(0, 1).toUpperCase()
+                                                + word.slice(1)
+                                     )
+                                     .join(' ')
+
+      , humanReadableName = await getInput(
+                              '  Human readable name',
+                              defaultHumanReadableName,
+                            )
+
+  replaceInAllFiles('electron-typescript-react-boilerplate', projectName)
+  replaceInAllFiles('Electron Typescript React Boilerplate', humanReadableName)
+
+  return humanReadableName
+}
+
+// Main
+
+(async () => {
+  removeGit()
+  const humanReadableName = await renameProject()
+  await reconfigurePackage()
+  installDependencies()
+  removeInit()
+  initializeReadme(humanReadableName)
+  initializeGit()
+  finish()
+})()
