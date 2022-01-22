@@ -1,0 +1,5 @@
+#!/bin/sh
+
+rm -rf dist
+npx webpack
+cp -r src/renderer/index.html dist/renderer/
