@@ -1,7 +1,8 @@
-# electron-typescript-react-boilerplace
+# Electron TypeScript React Boilerplate
 
 Barebones Electron app with TypeScript and React support that **automatically
-configures itself with a single command.**
+configures itself with a single command**. It will look like you set this up all
+yourself while enabling you to just start coding your app.
 
 This repository includes the following minimally configured packages:
   * Electron
@@ -64,7 +65,7 @@ Run your new app:
 npm run build && npm run start
 ```
 
-<img width="912" src="https://user-images.githubusercontent.com/407746/150650735-921e494c-346f-444d-b69d-736c414703b2.png">
+<img alt="Example Project preview" src="https://user-images.githubusercontent.com/407746/150650735-921e494c-346f-444d-b69d-736c414703b2.png" width="912">
 
 Now you're ready to start developing your application!
 
@@ -92,6 +93,6 @@ The following import aliases are defined for convenience:
 If you would like to add to or customize these import paths, make sure to update
 both `webpack.config.js` and `tsconfig.json`. However, don't delete the existing
 ones as this repo's base code may break. If you want to fix the imports yourself
-after that, go right ahead! It isn't complicated. This boilerplate aims to be a
+after that, go right ahead! It isn't complicated. This boilerplate aims to be as
 prescriptionless as possible, while being as ready to go out of the box as
 possible. Do whatever you want!
